@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="docker," />
 
 
 
@@ -79,14 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="1234567891011121314151617#Build Image StageFROM microsoft/aspnetcore-build:2 AS build-envWORKDIR /api# 以下为优化还原，因为项目文件不常变动Docker在构建过程可以使用CacheCOPY api.csproj .RUN dotnet restoreCOPY . .RUN dotnet publi">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Docker构建AspNetCore应用">
+<meta property="og:url" content="http://yoursite.com/2018/01/26/使用Docker构建AspNetCore应用/index.html">
 <meta property="og:site_name" content="一个铜板">
+<meta property="og:description" content="1234567891011121314151617#Build Image StageFROM microsoft/aspnetcore-build:2 AS build-envWORKDIR /api# 以下为优化还原，因为项目文件不常变动Docker在构建过程可以使用CacheCOPY api.csproj .RUN dotnet restoreCOPY . .RUN dotnet publi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-26T05:14:51.937Z">
+<meta property="og:updated_time" content="2018-01-26T12:49:26.536Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分类">
+<meta name="twitter:title" content="使用Docker构建AspNetCore应用">
+<meta name="twitter:description" content="1234567891011121314151617#Build Image StageFROM microsoft/aspnetcore-build:2 AS build-envWORKDIR /api# 以下为优化还原，因为项目文件不常变动Docker在构建过程可以使用CacheCOPY api.csproj .RUN dotnet restoreCOPY . .RUN dotnet publi">
 
 
 
@@ -116,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/26/使用Docker构建AspNetCore应用/"/>
 
 
 
 
 
-  <title>分类 | 一个铜板</title>
+  <title>使用Docker构建AspNetCore应用 | 一个铜板</title>
   
 
 
@@ -237,40 +241,192 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/使用Docker构建AspNetCore应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="derily">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个铜板">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">分类</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                暂无分类
-            </div>
-            <div class="category-all">
+          <h1 class="post-title" itemprop="name headline">使用Docker构建AspNetCore应用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
               
-            </div>
-          </div>
-        
-      </div>
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T20:47:57+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/26/使用Docker构建AspNetCore应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/01/26/使用Docker构建AspNetCore应用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/01/26/使用Docker构建AspNetCore应用/" class="leancloud_visitors" data-flag-title="使用Docker构建AspNetCore应用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Build Image Stage</span></span><br><span class="line">FROM microsoft/aspnetcore-build:2 AS build-env</span><br><span class="line">WORKDIR /api</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以下为优化还原，因为项目文件不常变动Docker在构建过程可以使用Cache</span></span><br><span class="line">COPY api.csproj .</span><br><span class="line">RUN dotnet restore</span><br><span class="line"></span><br><span class="line">COPY . .</span><br><span class="line">RUN dotnet publish -o /publish</span><br><span class="line"></span><br><span class="line"><span class="comment">#Runtime Image Stage</span></span><br><span class="line">FROM microsoft/aspnetcore:2</span><br><span class="line">WORKDIR /publish</span><br><span class="line">COPY --from=build-env /publish .</span><br><span class="line">EXPOSE 80</span><br><span class="line">ENTRYPOINT [<span class="string">"dotnet"</span>,<span class="string">"api.dll"</span>]</span><br></pre></td></tr></table></figure>
+<p>备注：api.dll是发布后的入口文件（项目名api)<br>建议和提醒：一般同学都使用Docker for Windows，Windows 10之前的版本只能使用Docker Toolbox,Docker 也只支持 Windows 10特定版本同时需要开启Hyper-V</p>
+<p>建议使用Linux Container 这样的话官网镜像会小很多（Docker for Windows 分Linux Container 和Windows Container可以通过右击Docker图标弹出的上下文菜单切换），也可以是用Docker加速器</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的支持</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="derily 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/26/markdown-语法/" rel="next" title="markdown 语法">
+                <i class="fa fa-chevron-left"></i> markdown 语法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -569,9 +725,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/categories/index.html';
-          this.page.identifier = 'categories/index.html';
-          this.page.title = '分类';
+          this.page.url = 'http://yoursite.com/2018/01/26/使用Docker构建AspNetCore应用/';
+          this.page.identifier = '2018/01/26/使用Docker构建AspNetCore应用/';
+          this.page.title = '使用Docker构建AspNetCore应用';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://derily.disqus.com/embed.js';
