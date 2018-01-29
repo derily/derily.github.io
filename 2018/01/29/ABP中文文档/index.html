@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="一个铜板">
 <meta property="og:description" content="本篇是ABP中文文档系列的第一篇，之所以开始翻译ABP文档一是提高自己对于框架本身的理解，二是方便大家不用啃英文，快速对框架有一个基本的认识，当然翻译再所难免有理解偏差，有不同见解的同学可以在文章后面评论，若大家都认同我会在后面对其进行更正，谢谢大家，下面开始主题。  介绍不同的应用都是基于不同的需求进行创建的。在某种程度上，他们都会一遍又一遍的实现类似模块，比喻授权、验证、异常处理、日志、本地">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-29T06:59:29.585Z">
+<meta property="og:updated_time" content="2018-01-29T07:47:59.801Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ABP中文文档">
 <meta name="twitter:description" content="本篇是ABP中文文档系列的第一篇，之所以开始翻译ABP文档一是提高自己对于框架本身的理解，二是方便大家不用啃英文，快速对框架有一个基本的认识，当然翻译再所难免有理解偏差，有不同见解的同学可以在文章后面评论，若大家都认同我会在后面对其进行更正，谢谢大家，下面开始主题。  介绍不同的应用都是基于不同的需求进行创建的。在某种程度上，他们都会一遍又一遍的实现类似模块，比喻授权、验证、异常处理、日志、本地">
@@ -339,8 +339,26 @@
 <p>这是一个简单的<code>application Service</code>方法。在DDD中<code>application service</code>是直接被呈现层作为应用用例执行。本例中的<code>UpdateTask</code>将被前端js通过AJAX调用</p>
 <p>让我们看看ABP拥有的特性或者是益处：</p>
 <ul>
-<li>Dependency Injection:ABP使用并且提供一个强大的基于约定的DI基础设施。如果一个类是<code>application service</code>,按照约定会最为短暂对象（每个请求重新创建）自动注册到DI容器中。可以简单的注入任何依赖，比喻此实例中的<code>IRepository&lt;Task&gt;</code>。</li>
-<li>Repository:</li>
+<li>Dependency Injection:ABP使用并且提供一个强大的基于约定的DI基础设施。如果一个类是<code>application service</code>,按照约定会作为短暂对象（每个请求重新创建）自动注册到DI容器中。可以简单的注入任何依赖，比喻此实例中的<code>IRepository&lt;Task&gt;</code>。</li>
+<li>Repository:ABP为每个实体(entity)创建默认的仓储，此实例中<code>IRepository&lt;Task&gt;</code>,其中<code>Task</code>为实体对象。默认的仓储有许多有用的方法如<code>FirstOrDefault</code>。可以很容易根据自己的需求扩展默认仓储。仓储抽象关系型数据库与ORMs框架简化数据访问逻辑。</li>
+<li>Authorization:ABP可以检查权限。如果当前用户没有<code>update tasks</code>权限或者没有登录，将被阻止访问<code>UpdateTask</code>方法。ABP不仅可以使用声明特性，同时也提供其他的方式让你使用授权特性。</li>
+<li>Validation:ABP自动检查输入是否为空对象。他可以基于<code>data annotation</code>特性和个性化验证规则验证所有输入属性的合法性。假如请求不合法，他将抛出合适的验证异常。</li>
+<li>AuditLogging:基于配置和约定用户、浏览器、IP地址、调用服务方法以及参数、调用时间、执行时长等等这些信息会自动保存。</li>
+<li>Unit Of Work:在ABP中每个<code>application service</code>方法默认都被假定为一个unit of work，他会自动创建一个连接同时在方法的开始创建事务。如果方法执行没有异常抛出成功完成，事务将在连接释放时提交，即使方法中包含不同的仓储或者其他的方法，所有这些都是原子的。所有对实体对象的变更都将在事务提交后保存，连<code>_repository.Update(task)</code>方法都不用调用。</li>
+<li>Exception Handling:web应用程序中我们都不用手动处理异常。所有异常默认都被自动处理，ABP自动记录他并且返回一个合适的结果给客户端。举例一个ajax请求，他返回一个json对象给客户端表示错误发生。如果异常是个用户友好异常将对客户端隐藏真实的异常，就像本实例中处理task==null的情况。</li>
+<li>Logging:正如你所看到的我们在实例中使用Logger对象。默认使用Log4Net日志组件，当然你也可以更换或者配置它。</li>
+<li>Localization:不知道你注意到我们抛出用户友好异常时使用<code>L</code>方法，这个方法根据用户当前的culture自动实现本地化，我们在其他地方定义<code>CouldNotFindTheTaskMessage</code>内容。</li>
+<li>Auto Mapping:本实例中最后一行我们使用了MapTo扩展方法映射输入属性到实体属性。使用了AutoMapper库执行映射。我们可以很容易根据命名约定映射属性。</li>
+<li>Dynamic Web API Layer:TaskAppService 是一个简单的类，现实中我们一般还要包装将其包装成一个WebAPI控制器对javascript客户端提供方法调用，然而ABP框架已经在运行时自动为你做了。</li>
+<li>Dynamic Javascript AJAX Proxy:ABP创建了代理方法让你在客户端想调用javascript方法一样调用应用服务。</li>
+</ul>
+<p>其他的特性</p>
+<ul>
+<li>Modularity:提供了一个强大的基础设施构建可重用的模块。</li>
+<li>Data Filters:自动数据过滤实现了一些模式如软删除和多租户。</li>
+<li>Multi Tenancy:完全支持多租户，包括单个数据库或者每个租户一个数据库的结构。</li>
+<li>Setting Management:提供了一个强大的基础设施更改和获取应用，租户和用户级别的设置。</li>
+<li>Unit &amp; Integration Testing:ABP也是考虑到可测试性构建的。它提供了一些基础类来简化单元和整合测试。</li>
 </ul>
 
       
