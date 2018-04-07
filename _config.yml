@@ -79,7 +79,8 @@ theme: next
 deploy:
   type: git
   repo: 
-    #github: https://github.com/derily/derily.github.io
+    #github: https://derily:a-000-a@github.com/derily/derily.github.io
+    github: git@github.com:derily/derily.github.io.git
     coding: git@git.coding.net:derily/derily.coding.me.git
   branch: master
   message:
