@@ -4,7 +4,7 @@
 
 # Site
 title: 一个铜板
-subtitle: 把握今天
+subtitle: 把握今天,做有意义的事。
 description:
 author: derily
 language: zh-Hans
@@ -78,6 +78,8 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/derily/derily.github.io
+  repo: 
+    #github: https://github.com/derily/derily.github.io
+    coding: git@git.coding.net:derily/derily.coding.me.git
   branch: master
   message:
