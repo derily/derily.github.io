@@ -247,6 +247,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/20/How-to-run-ASP-NET-Core-Website-in-Production-On-Ubuntu-Linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="derily">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一个铜板">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/20/How-to-run-ASP-NET-Core-Website-in-Production-On-Ubuntu-Linux/" itemprop="url">How to run ASP.NET Core Website in Production On Ubuntu Linux</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T00:20:17+08:00">
+                2018-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/20/How-to-run-ASP-NET-Core-Website-in-Production-On-Ubuntu-Linux/" class="leancloud_visitors" data-flag-title="How to run ASP.NET Core Website in Production On Ubuntu Linux">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>With the release of .NET Core and ASP.NET Core it’s now possible to run modern web applications written in C# on Linux. In this post, I will show you how to configure a Ubuntu server to run an ASP.NET Core site in production.</p>
+<p>This post will cover:</p>
+<p>What is ASP.NET Core?<br>How to install .NET Core on Ubuntu.<br>Running an ASP.NET Core website on Ubuntu.<br>Configure NGINX as a Reverse Proxy to ASP.NET Core.<br>Configure ASP.NET Core as a Background Service.<br>What is ASP.NET Core?<br>ASP.NET Core is a rewrite of ASP.NET and now runs on multiple operating systems such as Windows, OS X, Linux etc. Here is an excerpt of how the ASP.NET team describe it.</p>
+<p>ASP.NET Core is a new open-source and cross-platform framework for building modern cloud based internet connected applications, such as web apps, IoT apps and mobile backends. ASP.NET Core apps can run on .NET Core or on the full .NET Framework. – Introduction to ASP.NET Core</p>
+<p>I think it goes without saying the benefits this brings to the whole development community. Businesses that use Windows can save costs on server licenses by running their apps on Linux.</p>
+<p>How to Install .NET Core on Ubuntu<br>In order to run ASP.NET Core on Linux we need to install .NET Core. Follow the steps below to install .NET Core on your required Ubuntu version.</p>
+<p>Install ASP.NET Core on Ubuntu 14.04</p>
+<p>sudo sh -c ‘echo “deb [arch=amd64] <a href="https://apt-mo.trafficmanager.net/repos/dotnet/" target="_blank" rel="noopener">https://apt-mo.trafficmanager.net/repos/dotnet/</a> trusty main” &gt; /etc/apt/sources.list.d/dotnetdev.list’<br>sudo apt-key adv –keyserver apt-mo.trafficmanager.net –recv-keys 417A0893<br>sudo apt-get update<br>sudo apt-get install dotnet-dev-1.0.0-preview2-003121<br>Install ASP.NET Core on Ubuntu 16.04</p>
+<p>sudo sh -c ‘echo “deb [arch=amd64] <a href="https://apt-mo.trafficmanager.net/repos/dotnet/" target="_blank" rel="noopener">https://apt-mo.trafficmanager.net/repos/dotnet/</a> xenial main” &gt; /etc/apt/sources.list.d/dotnetdev.list’<br>sudo apt-key adv –keyserver apt-mo.trafficmanager.net –recv-keys 417A0893<br>sudo apt-get update<br>sudo apt-get install dotnet-dev-1.0.0-preview2-003121<br>Running an ASP.NET Core Website on Ubuntu<br>The first step is to prepare the output directory that our test project will be published to.</p>
+<p>sudo mkdir -p /srv/aspnet/hellomvc.com<br>sudo chown -R :www-data /srv/aspnet<br>sudo chmod -R g+s /srv/aspnet<br>The first command creates the directory, the second command changes the group to www-data and the last command makes sure that new files and folders inside the directory will be assigned the www-data group on creation. The reason we assign www-data to the directory is because it is safer to run the app as the www-data user.</p>
+<p>Next we will download the samples from the ASP.NET GitHub repository and then publish the sample application to our output directory.</p>
+<p>git clone <a href="https://github.com/aspnet/cli-samples" target="_blank" rel="noopener">https://github.com/aspnet/cli-samples</a> /tmp/samples<br>cd /tmp/samples/HelloMvc<br>dotnet restore<br>sudo dotnet publish -c Release -o /srv/aspnet/hellomvc.com<br>Test running the application as the www-data user with the following command:</p>
+<p>sudo -u www-data bash -c “dotnet /srv/aspnet/hellomvc.com/HelloMvc.dll”<br>You should see the output</p>
+<p>ASP.NET Core Started Image</p>
+<p>Press Ctrl+C to shutdown the application.</p>
+<p>Configure NGINX as a Reverse Proxy to ASP.NET Core<br>As you may have noticed when we tested the ASP.NET Core app in the previous section, the port it was listening on was 5000. We could change the app to listen on port 80 but that would mean no other sites on the server would be able to run at the same time. It’s also not recommended by Microsoft to run Kestrel (the ASP.NET Core module that handles HTTP requests) without a proxy.</p>
+<p>To get around this we need to configure NGINX to listen on port 80 and proxy the requests to our ASP.NET Core app.</p>
+<p>First we need to install NGINX with the following command.</p>
+<p>sudo apt-get install nginx<br>Now we need to create the virtual host config for our test app by creating a new file called hellomvc.com.conf in the /etc/nginx/sites-available directory.</p>
+<p>sudo vim /etc/nginx/sites-available/hellomvc.com.conf<br>Add the following configuration options to the file.</p>
+<p>server {<br>    listen 80;<br>    server_name hellomvc.com;</p>
+<pre><code>location / {
+    proxy_pass http://127.0.0.1:5000;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection keep-alive;
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+}
+</code></pre><p>}<br>Activate the new virtual host.</p>
+<p>sudo ln -s /etc/nginx/sites-available/hellomvc.com.conf /etc/nginx/sites-enabled/<br>Apply the configuration.</p>
+<p>sudo nginx -s reload<br>After running the command we used above to start the app again, you should be able to access the site at <a href="http://hellomvc.com" target="_blank" rel="noopener">http://hellomvc.com</a>.</p>
+<p>However, manually starting the process in production is not desirable, so we will configure the app to run as a background service in the next step.</p>
+<p>Configure ASP.NET Core as a Background Service<br>Supervisor is a third-party program that can be used to monitor a process on Linux. By installing and configuring Supervisor we can monitor the ASP.NET Core process, so that it starts with the operating system and restarts in the event of a failure.</p>
+<p>Install Supervisor with the following command.</p>
+<p>sudo apt-get install supervisor<br>The permissions of the supervisor.sock file need changed so that programs can be restarted without using sudo. Edit the supervisord.conf file.</p>
+<p>sudo vim /etc/supervisor/supervisord.conf<br>Change chmod from 700 to 766.</p>
+<p>[unix_http_server]<br>file=/var/run/supervisor.sock   ; (the path to the socket file)<br>chmod=0766                      ; socket file mode (default 0700)<br>Start Supervisor.</p>
+<p>sudo service supervisor start<br>Configure Supervisor to monitor our ASP.NET Core app</p>
+<p>sudo vim /etc/supervisor/conf.d/aspnet.conf<br>Add contents and save.</p>
+<p>[group:hellomvc]<br>programs=hellomvcapp</p>
+<p>[program:hellomvcapp]<br>directory=/srv/aspnet/hellomvc.com<br>command=/usr/bin/dotnet HelloMvc.dll<br>autostart=true<br>autorestart=true<br>stderr_logfile=/var/log/hellomvc.err.log<br>stdout_logfile=/var/log/hellomvc.out.log<br>user=www-data<br>stopsignal=INT<br>stopasgroup=true<br>Restart Supervisor to apply the changes.</p>
+<p>sudo service supervisor restart<br>The application can now be started with.</p>
+<p>supervisorctl start hellomvc:<br>You should be able to view the site by browsing to: <a href="http://hellomvc.com" target="_blank" rel="noopener">http://hellomvc.com</a>. Note: You will need to add hellomvc.com to your DNS server or hosts file to test the app.</p>
+<p>If you are using Windows I have created handy tool that makes editing the hosts file easy. You can download it from GitHub here or read more about it in this post: Announcing Hosts Editor, a FREE tool for editing the Windows hosts file.</p>
+<p>You can check for startup errors at /var/log/hellomvc.err.log and runtime logging at /var/log/hellomvc.out.log.</p>
+<p>Final Thoughts<br>After following the steps in this post, you should now be able to configure Ubuntu server to host your ASP.NET Core websites. I’m using a similar setup to run this website and I’m finding it fast and deploying to it is easy with Git.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/软件开发两个基本原则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1126,7 +1303,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
