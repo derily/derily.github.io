@@ -331,8 +331,11 @@
           
             <p>1: 下载zip安装包<br>2: 解压zip至目录D:\MySQL     此处假设安装目录是D:\MySQL<br>3: 在MySQL目录下新建my.ini配置文件内容如下</p>
 <blockquote>
-<p>  [mysql]<br>    default-character-set=utf8<br>    [mysqld]</p>
-<pre><code># The TCP/IP Port the MySQL Server will listen on
+<h1 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h1><pre><code>[mysql]
+default-character-set=utf8
+# 服务端配置
+[mysqld]
+# The TCP/IP Port the MySQL Server will listen on
 port=3306
 # Path to installation directory. All paths are usually resolved relative to this.
 # basedir=&quot;D:/MySQL/MySQL Server 5.7/&quot;
