@@ -329,14 +329,16 @@
       
         
           
-            <p>1: 下载zip安装包<br>2: 解压zip至目录D:\MySQL     此处假设安装目录是D:\MySQL<br>3: 在MySQL目录下新建my.ini配置文件内容如下<br>    [mysql]<br>    default-character-set=utf8<br>    [mysqld]</p>
+            <p>1: 下载zip安装包<br>2: 解压zip至目录D:\MySQL     此处假设安装目录是D:\MySQL<br>3: 在MySQL目录下新建my.ini配置文件内容如下</p>
+<blockquote>
+<p>  [mysql]<br>    default-character-set=utf8<br>    [mysqld]</p>
 <pre><code># The TCP/IP Port the MySQL Server will listen on
 port=3306
 # Path to installation directory. All paths are usually resolved relative to this.
 # basedir=&quot;D:/MySQL/MySQL Server 5.7/&quot;
 # 等同与basedir=&quot;D:\\MySQL\\MySQL Server 5.7\\&quot;
-
-# Path to the database root
+</code></pre></blockquote>
+<pre><code># Path to the database root
 datadir=D:\\MySQL\\MySQL Server 5.7\\Data
 
 # The default character set that will be used when a new schema or table is
@@ -345,7 +347,7 @@ character-set-server=utf8
 
 # The default storage engine that will be used when create new tables when
 default-storage-engine=INNODB
-</code></pre><p>4:  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> D:\MySQL\MySQL Server 5.7\bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法一</span></span><br><span class="line">mysqld --initialize --console  <span class="comment"># 初始化data目录，并且输出日志至控制台其中包含随机密码</span></span><br><span class="line">mysqld install 服务名</span><br><span class="line">net start 服务名</span><br><span class="line">mysql -u root -p </span><br><span class="line">输入随机密码</span><br><span class="line">mysql&gt;alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">'新密码'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二</span></span><br><span class="line">mysqld --initialize-insecure <span class="comment"># 初始化data目录，但是不创建随机密码</span></span><br><span class="line">mysqld install 服务名</span><br><span class="line">net start 服务名</span><br><span class="line">mysql -u root --skip-password</span><br><span class="line">mysql&gt;alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">'新密码'</span></span><br></pre></td></tr></table></figure></p>
+</code></pre><p>4:  命令行操作<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> D:\MySQL\MySQL Server 5.7\bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法一</span></span><br><span class="line">mysqld --initialize --console  <span class="comment"># 初始化data目录，并且输出日志至控制台其中包含随机密码</span></span><br><span class="line">mysqld install 服务名</span><br><span class="line">net start 服务名</span><br><span class="line">mysql -u root -p </span><br><span class="line">输入随机密码</span><br><span class="line">mysql&gt;alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">'新密码'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二</span></span><br><span class="line">mysqld --initialize-insecure <span class="comment"># 初始化data目录，但是不创建随机密码</span></span><br><span class="line">mysqld install 服务名</span><br><span class="line">net start 服务名</span><br><span class="line">mysql -u root --skip-password</span><br><span class="line">mysql&gt;alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">'新密码'</span></span><br></pre></td></tr></table></figure></p>
 
           
         
